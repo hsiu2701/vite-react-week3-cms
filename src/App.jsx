@@ -158,7 +158,7 @@ function App() {
       imagesUrl: newImages,
     });
   };
-  新增圖片;
+  // 新增圖片;
   const addImg = () => {
     const newImages = [...tempProduct.imagesUrl, ""];
 
