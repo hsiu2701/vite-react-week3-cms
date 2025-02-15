@@ -158,28 +158,28 @@ function App() {
       imagesUrl: newImages,
     });
   };
-  // 新增圖片
-  // const addImg = () => {
-  //   const newImages = [...tempProduct.imagesUrl, ""];
+  新增圖片;
+  const addImg = () => {
+    const newImages = [...tempProduct.imagesUrl, ""];
 
-  //   // newImages.push("");
+    // newImages.push("");
 
-  //   setTempProduct({
-  //     ...tempProduct,
-  //     imagesUrl: newImages,
-  //   });
-  // };
-  // // 刪除圖片
-  // const deleteImg = () => {
-  //   const newImages = [...tempProduct.imagesUrl];
+    setTempProduct({
+      ...tempProduct,
+      imagesUrl: newImages,
+    });
+  };
+  // 刪除圖片
+  const deleteImg = () => {
+    const newImages = [...tempProduct.imagesUrl];
 
-  //   newImages.pop();
+    newImages.pop();
 
-  //   setTempProduct({
-  //     ...tempProduct,
-  //     imagesUrl: newImages,
-  //   });
-  // };
+    setTempProduct({
+      ...tempProduct,
+      imagesUrl: newImages,
+    });
+  };
   // 新增產品,注意有data,數字要轉型
   const createProduct = async () => {
     try {
