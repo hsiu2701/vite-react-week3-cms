@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 //引入bootstrap  Modal
 import { Modal } from "bootstrap";
-
+//引入api  對應 .env檔
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API_PATH = import.meta.env.VITE_API_PATH;
 // Modal 對應的欄位資料(資料要放最前面)
@@ -30,7 +30,7 @@ function App() {
   });
 
   //modal 狀態 ,useState({defaultModalState對應modal的欄位資料});
-  const [tempProduct, setTempProduct] = useState({ defaultModalState });
+  const [tempProduct, setTempProduct] = useState(defaultModalState);
 
   const handleInputChange = (e) => {
     const { value, name } = e.target;
@@ -50,8 +50,9 @@ function App() {
       document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
 
       axios.defaults.headers.common["Authorization"] = token;
-
+      //呼叫載入資料
       getProducts();
+      // 當驗證為true
       setIsAuth(true);
     } catch (error) {
       alert("登入失敗", error);
@@ -161,9 +162,7 @@ function App() {
   // 新增圖片;
   const addImg = () => {
     const newImages = [...tempProduct.imagesUrl, ""];
-
     // newImages.push("");
-
     setTempProduct({
       ...tempProduct,
       imagesUrl: newImages,
@@ -183,7 +182,7 @@ function App() {
   // 新增產品,注意有data,數字要轉型
   const createProduct = async () => {
     try {
-      await axios.post(`${BASE_URL}/api/${API_PATH}/admin/product`, {
+      await axios.post(`${BASE_URL}/v2/api/${API_PATH}/admin/product`, {
         data: {
           ...tempProduct,
           origin_price: Number(tempProduct.origin_price),
@@ -234,7 +233,7 @@ function App() {
   const updateProduct = async () => {
     try {
       await axios.put(
-        `${BASE_URL}/api/${API_PATH}/admin/product/${tempProduct.id}`,
+        `${BASE_URL}/v2/api/${API_PATH}/admin/product/${tempProduct.id}`,
         {
           data: {
             ...tempProduct,
@@ -382,7 +381,7 @@ function App() {
                     <div className="input-group">
                       <input
                         name="imageUrl"
-                        type="text"
+                        type="url"
                         id="primary-image"
                         className="form-control"
                         placeholder="請輸入圖片連結"
@@ -409,7 +408,7 @@ function App() {
                         </label>
                         <input
                           id={`imagesUrl-${index + 1}`}
-                          type="text"
+                          type="url"
                           placeholder={`圖片網址 ${index + 1}`}
                           className="form-control mb-2"
                           // 綁map值 +監聽
@@ -427,7 +426,7 @@ function App() {
                     ))}
 
                     <div className="btn-group w-100">
-                      {/* {tempProduct.imagesUrl.length < 5 &&
+                      {tempProduct.imagesUrl.length < 5 &&
                         tempProduct.imagesUrl[
                           tempProduct.imagesUrl.length - 1
                         ] !== "" && (
@@ -445,7 +444,7 @@ function App() {
                         >
                           取消圖片
                         </button>
-                      )} */}
+                      )}
                     </div>
                   </div>
                 </div>
@@ -509,10 +508,11 @@ function App() {
                         placeholder="請輸入原價"
                         value={tempProduct.origin_price}
                         onChange={handleModalInputChange}
+                        min="0"
                       />
                     </div>
                     <div className="col-6">
-                      <label htmlFor="price" className="form-label">
+                      <label htmlFor="price" className="form-label ">
                         售價
                       </label>
                       <input
@@ -523,6 +523,7 @@ function App() {
                         placeholder="請輸入售價"
                         value={tempProduct.price}
                         onChange={handleModalInputChange}
+                        min="0"
                       />
                     </div>
                   </div>
